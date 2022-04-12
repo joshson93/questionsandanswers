@@ -1,6 +1,5 @@
 import axios from 'axios';
-const baseUrl = 'http://localhost:3000/'
-
+const baseUrl = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfe`;
 
 const buildGetOptions = (endpoint, params = {}, data = {}) => {
   return {
@@ -8,7 +7,7 @@ const buildGetOptions = (endpoint, params = {}, data = {}) => {
     params,
     url: endpoint,
     baseURL: baseUrl,
-  }
+  };
 };
 
 const buildPostOptions = (endpoint, params = {}, data = {}, method = 'POST') => {
@@ -18,32 +17,22 @@ const buildPostOptions = (endpoint, params = {}, data = {}, method = 'POST') => 
     url: endpoint,
     baseURL: baseUrl,
     data: {
-      ...data
+      ...data,
     },
-  }
+  };
 };
-
 
 const getReqest = (endpoint, params) => {
-  return axios(buildGetOptions(endpoint, params))
-          .then(res => res.data)
+  return axios(buildGetOptions(endpoint, params)).then((res) => res.data);
 };
 
-
-
 const postRequest = (endpoint, params, data) => {
-  return axios(buildPostOptions(endpoint, params, data))
-}
-
-
-
+  return axios(buildPostOptions(endpoint, params, data));
+};
 
 const request = {
   get: getReqest,
   post: postRequest,
-}
-
-
+};
 
 export default request;
-
