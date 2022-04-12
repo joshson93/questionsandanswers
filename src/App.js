@@ -4,10 +4,7 @@ import styled from 'styled-components';
 import Header from './components/Header.js';
 import Modal from './components/Modal/index';
 import { StateContext, DispatchContext } from './appState/index.js';
-import ProductDetails from './ProductDetails/index';
-import RatingsReviews from './RatingsReviews/index';
 import QAndA from './QandA/index';
-import RelatedProducts from './RelatedProducts/index';
 
 const maxApiRequests = 2;
 var renderCount = 0;
