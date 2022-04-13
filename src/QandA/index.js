@@ -196,7 +196,8 @@ export const qAndAStateInit = (productId) => {
 };
 
 const QAHeader = styled.h1`
-  margin-left: 5%;
+  margin-top: 2%;
+  margin-left: 10%;
   margin-bottom: 10px;
   font-size: 30px;
   /* color: var(--header-fc); */
@@ -216,6 +217,8 @@ const EntireQuestionsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding-bottom: 4em;
+  margin-right: 5%;
+  margin-left: 5%;
 `;
 
 const EntireQAndAContainer = styled.div`

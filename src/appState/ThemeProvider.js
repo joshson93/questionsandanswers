@@ -3,11 +3,8 @@ import { createGlobalStyle, css } from 'styled-components';
 
 const ThemeProvider = ({ STYLES, dimensions }) => {
   const { bgc, fc, fs } = STYLES;
-  return (
-    <GlobalStyles dimensions={dimensions} fs={fs} fc={fc} bgc={bgc} />
-  )
-}
-
+  return <GlobalStyles dimensions={dimensions} fs={fs} fc={fc} bgc={bgc} />;
+};
 
 const media = {
   mobile: '425px',
@@ -15,7 +12,7 @@ const media = {
   laptop: '1024px',
   /* laptopL: '1440px',
   desktop: '2560px' */
-}
+};
 
 const GlobalStyles = createGlobalStyle`
 * {
@@ -29,7 +26,6 @@ html,
 body {
   min-height: 100%;
   height: 100%;
-  background-color: rgb(247, 193, 18);
   font-family: 'Open Sans', sans-serif;
 
 }
@@ -88,7 +84,10 @@ code {
     --product-carousel-width: 100%;
     --product-info-width: 100%;
     --main-Photo-width: 100%;
-    --main-Photo-heigth: ${({ dimensions }) => css`${(dimensions.width).toString()}px`};
+    --main-Photo-heigth: ${({ dimensions }) =>
+      css`
+        ${dimensions.width.toString()}px
+      `};
 
 
     --searchBar-width: 80%;
@@ -99,8 +98,14 @@ code {
       --body-fs: var(--fs-0);
       --header-fs: var(--fs2);
       --product-flex: row;
-      --main-Photo-width: ${({ dimensions }) => css`${(dimensions.width * 0.65).toString()}px`};
-      --main-Photo-heigth: ${({ dimensions }) => css`${(dimensions.width * 0.65).toString()}px`};
+      --main-Photo-width: ${({ dimensions }) =>
+        css`
+          ${(dimensions.width * 0.65).toString()}px
+        `};
+      --main-Photo-heigth: ${({ dimensions }) =>
+        css`
+          ${(dimensions.width * 0.65).toString()}px
+        `};
       --product-carousel-width: 65%;
       --product-info-width: 35%;
       --searchBar-width: 50%;
@@ -111,56 +116,52 @@ code {
      --header-fs: var(--fs3);
     }
   }
-`
-
-
-
+`;
 
 var calcRange = (baseValues, change, steps) => {
-  baseValues = Array.isArray(baseValues) ? baseValues : [baseValues]
+  baseValues = Array.isArray(baseValues) ? baseValues : [baseValues];
   var rangeKey = 0 - steps;
   const newRange = {};
-  while(steps >= rangeKey) {
+  while (steps >= rangeKey) {
     // eslint-disable-next-line no-loop-func
     const newValues = baseValues.map((value, ind) => {
-      var newValue = value + (rangeKey * change[ind])
+      var newValue = value + rangeKey * change[ind];
       newValue = newValue > 0 ? newValue : 0;
-      newValue = newValue > 255 ? 255 : newValue
-      return newValue
-    })
-    newRange[rangeKey.toString()] = newValues.length > 1 ? newValues : newValues[0]
-    rangeKey++
+      newValue = newValue > 255 ? 255 : newValue;
+      return newValue;
+    });
+    newRange[rangeKey.toString()] = newValues.length > 1 ? newValues : newValues[0];
+    rangeKey++;
   }
 
-  return newRange
-}
+  return newRange;
+};
 
 var createTheme = (baseValues) => {
-  const theme = {}
-  const { background, font } = baseValues
+  const theme = {};
+  const { background, font } = baseValues;
   const baseBGColors = background.color;
   const baseBGChange = background.change || [5, 5, 5];
   const steps = background.range || 2;
-  theme.bgc = calcRange(baseBGColors, baseBGChange, steps)
+  theme.bgc = calcRange(baseBGColors, baseBGChange, steps);
 
   const { fontSize, fontColor } = font;
 
   const fontColors = fontColor.value;
   const fontCChange = fontColor.change || [5, 5, 5];
   const fontCRange = fontColor.range || 2;
-  theme.fc = calcRange(fontColors, fontCChange, fontCRange)
+  theme.fc = calcRange(fontColors, fontCChange, fontCRange);
 
   const fontSizeBase = fontSize.value;
   const fontSChange = fontSize.change || [0.3];
   const fontSRange = fontSize.range || 2;
-  theme.fs = calcRange(fontSizeBase, fontSChange, fontSRange)
-  return theme
-}
-
+  theme.fs = calcRange(fontSizeBase, fontSChange, fontSRange);
+  return theme;
+};
 
 var darkBase = {
   background: {
-    color: [30,30,30],
+    color: [30, 30, 30],
     change: [-5, -5, -5],
     range: 3,
   },
@@ -168,14 +169,13 @@ var darkBase = {
     fontSize: {
       value: 1.1,
       range: 3,
-      change: [.1]
+      change: [0.1],
     },
     fontColor: {
-      value: [240, 240, 240]
-    }
-  }
-}
-
+      value: [240, 240, 240],
+    },
+  },
+};
 
 // var darkBase = {
 //   background: {
@@ -196,34 +196,25 @@ var darkBase = {
 
 var ligthBase = {
   background: {
-    color: [240,240,240],
+    color: [240, 240, 240],
     range: 3,
   },
   font: {
     fontSize: {
       value: 1,
       range: 3,
-      change: [.1]
+      change: [0.1],
     },
     fontColor: {
-      value: [25, 25, 25]
-    }
-  }
-}
+      value: [25, 25, 25],
+    },
+  },
+};
 
-export const darkTheme = createTheme(darkBase)
-export const lightTheme = createTheme(ligthBase)
+export const darkTheme = createTheme(darkBase);
+export const lightTheme = createTheme(ligthBase);
 
-
-
-
-
-
-export default ThemeProvider
-
-
-
-
+export default ThemeProvider;
 
 // export const lightTheme = {
 
@@ -250,10 +241,7 @@ export default ThemeProvider
 
 // }
 
-
-
 // export const darkTheme = {
-
 
 //   background: {
 //     bgColor: {
@@ -276,9 +264,7 @@ export default ThemeProvider
 //     }
 //   }
 
-
 // }
-
 
 // export const lightTheme = {
 //   main: {
@@ -310,7 +296,6 @@ export default ThemeProvider
 
 // }
 
-
 // export const darkTheme = {
 
 //   main: {
@@ -337,8 +322,6 @@ export default ThemeProvider
 
 // }
 
-
-
 // const element = {
 //   background: {
 //     color: [240, 240, 240]
@@ -348,9 +331,6 @@ export default ThemeProvider
 //     size: 5,
 //   }
 // }
-
-
-
 
 // const mainLight = {
 //   background: {
@@ -362,7 +342,6 @@ export default ThemeProvider
 //   }
 // }
 
-
 // const containerLight = {
 //   background: {
 //     color: [225, 225, 225]
@@ -372,7 +351,6 @@ export default ThemeProvider
 //     size: 5,
 //   }
 // }
-
 
 // const createTheme = function() {
 //   const themeElements = [...arguments]
