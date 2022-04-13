@@ -1,10 +1,10 @@
 import React from 'react';
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, css } from 'styled-components';
 
-const ThemeProvider = ({ STYLES }) => {
+const ThemeProvider = ({ STYLES, dimensions }) => {
   const { bgc, fc, fs } = STYLES;
   return (
-    <GlobalStyles  fs={fs} fc={fc} bgc={bgc} />
+    <GlobalStyles dimensions={dimensions} fs={fs} fc={fc} bgc={bgc} />
   )
 }
 
@@ -18,6 +18,36 @@ const media = {
 }
 
 const GlobalStyles = createGlobalStyle`
+* {
+  margin: 0px;
+  padding: 0px;
+  border-width: 0px;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  height: 100%;
+  background-color: rgb(247, 193, 18);
+  font-family: 'Open Sans', sans-serif;
+
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100%;
+  height: 100%;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
   html {
     --bgc-3: ${({ bgc }) => `rgb(${bgc['-3'].toString()})`};
     --bgc-2: ${({ bgc }) => `rgb(${bgc['-2'].toString()})`};
@@ -57,6 +87,10 @@ const GlobalStyles = createGlobalStyle`
     --product-flex: column;
     --product-carousel-width: 100%;
     --product-info-width: 100%;
+    --main-Photo-width: 100%;
+    --main-Photo-heigth: ${({ dimensions }) => css`${(dimensions.width).toString()}px`};
+
+
     --searchBar-width: 80%;
     color: var(--body-fc);
 
@@ -65,6 +99,8 @@ const GlobalStyles = createGlobalStyle`
       --body-fs: var(--fs-0);
       --header-fs: var(--fs2);
       --product-flex: row;
+      --main-Photo-width: ${({ dimensions }) => css`${(dimensions.width * 0.65).toString()}px`};
+      --main-Photo-heigth: ${({ dimensions }) => css`${(dimensions.width * 0.65).toString()}px`};
       --product-carousel-width: 65%;
       --product-info-width: 35%;
       --searchBar-width: 50%;

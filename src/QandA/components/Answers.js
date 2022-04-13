@@ -40,16 +40,32 @@ export default function Answers(props) {
         payload: newUpvoted,
       });
       setShowHelpfulModal(true);
-      api.upvote.answer({ typeId: id, productId: state.currentProduct })
-        .then(() =>  api.load.newProduct(state.currentProduct, dispatch))
-        .catch((err) => console.log('helpful question not sent!'));
+      api.post.answer
+        .helpful(id, state.currentProduct)
+        .then(() => {
+          return api.get.allProductData(state.currentProduct);
+        })
+        .then((getRes) =>
+          dispatch({
+            type: 'PROD_INIT',
+            payload: getRes,
+          })
+        );
     }
   };
 
   const reportAnswerHandler = (id) => {
-    api.report.answer({ typeId: id, productId: state.currentProduct })
-      .then(() =>  api.load.newProduct(state.currentProduct, dispatch))
-      .catch((err) => console.log('report answer not sent!'));
+    api.post.answer
+      .report(id, state.currentProduct)
+      .then(() => {
+        return api.get.allProductData(state.currentProduct);
+      })
+      .then((getRes) =>
+        dispatch({
+          type: 'PROD_INIT',
+          payload: getRes,
+        })
+      );
   };
 
   const backDropHandler = (e) => {
@@ -73,7 +89,6 @@ export default function Answers(props) {
   const collapseAllAnswersHandler = () => {
     setAddMoreAnswers(0);
   };
-
 
   const sortingBySeller = (values) => {
     let sorted = values.sort((a, b) => {
@@ -222,4 +237,5 @@ const Wrapper = styled.div`
 
 const AnswerBody = styled.h3`
   font-size: var(--body-fs);
+  width: 70%;
 `;

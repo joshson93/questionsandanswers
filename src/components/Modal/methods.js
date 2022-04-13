@@ -14,15 +14,12 @@ export const checkModalState = (childBool, modalOpen, setModalOpen, fadeTime) =>
   }
 }
 
-
-
-
-export const toggleModal = (dispatch, modalKey = 'none', modalProps = {}) => {
+export const toggleModal = (dispatch, modalKey) => {
   dispatch({
     type: 'TOGGLE_MODAL',
-    payload: {
-      name: modalKey,
-      props: modalProps
-    }
+    payload: modalKey
   })
 }
+
+
+

@@ -21,13 +21,21 @@ export default function QuestionForm(props) {
       email: email,
     };
     api.post
-      .question({ typeId: props.id, post:newQuestion, productId: state.currentProduct })
+      .question(newQuestion)
       .then((res) => console.log('post question res', res))
       .then(() => {
+        props.showForm();
         setUsername('');
         setEmail('');
         setBody('');
-        api.load.newProduct(state.currentProduct, dispatch);
+        return api.get.allProductData(state.currentProduct);
+      })
+      .then((getRes) => {
+        console.log(getRes);
+        dispatch({
+          type: 'PROD_INIT',
+          payload: getRes,
+        });
       })
       .catch((err) => console.log('question not sent!'));
   };

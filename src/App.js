@@ -1,10 +1,23 @@
+import './App.css';
 import api from './api/index.js';
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import Header from './components/Header.js';
 import Modal from './components/Modal/index';
+import CircularProgress from '@mui/material/CircularProgress';
 import { StateContext, DispatchContext } from './appState/index.js';
-import QAndA from './QandA/index';
+import ProductDetails, { detailsStateInit } from './ProductDetails/index';
+import RatingsReviews, { reviewStateInit, reviewMetaStateInit } from './RatingsReviews/index';
+import QAndA, { qAndAStateInit } from './QandA/index';
+import RelatedProducts, { relatedStateInit } from './RelatedProducts/index';
+
+api.get.initProductDataFetch(
+  detailsStateInit,
+  reviewStateInit,
+  reviewMetaStateInit,
+  qAndAStateInit,
+  relatedStateInit
+);
 
 const maxApiRequests = 2;
 var renderCount = 0;
@@ -27,11 +40,13 @@ function App() {
   if (!state.details.product) {
     if (maxApiRequests > requestCount) {
       requestCount++;
-      api.load.newProduct(state.currentProduct, dispatch);
+      initializeAppState(state.currentProduct, dispatch);
       return (
         <LoadingContainer className='App' data-testid='app'>
           <LoadingScreen>
-            <LoadingText>Loading...</LoadingText>
+            <LoadingText>
+              <CircularProgress />
+            </LoadingText>
           </LoadingScreen>
         </LoadingContainer>
       );
@@ -39,7 +54,7 @@ function App() {
       return (
         <LoadingContainer className='App' data-testid='app'>
           <LoadingScreen>
-            <LoadingText>404 not found</LoadingText>
+            <LoadingText>404 Not Found</LoadingText>
           </LoadingScreen>
         </LoadingContainer>
       );
@@ -50,19 +65,21 @@ function App() {
     return (
       <AppContainer className='App' data-testid='app'>
         {/* <Modal />
-        <Header /> */}
-        {/* <ProductDetails />
-        <RelatedProducts  /> */}
+        <Header />
+        <ProductDetails />
+        <RelatedProducts /> */}
         <QAndA />
-        {/* <RatingsReviews reviewData={state.reviews.reviews} reviewMeta={state.reviews.meta} dev={state.dev} /> */}
+        {/* <RatingsReviews reviewData={state.reviews} reviewMeta={state.reviewMeta} dev={state.dev} /> */}
       </AppContainer>
     );
   }
 }
 
+const appBackgroundColor = [250, 250, 250];
+
 const AppContainer = styled.div`
   width: 100%;
-  background-color: var(--main-bgc);
+  background-color: rgb(${appBackgroundColor.toString()});
 `;
 const LoadingContainer = styled.div`
   width: 100%;
@@ -70,9 +87,10 @@ const LoadingContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--contain-bgc);
+  background-color: rgb(${appBackgroundColor.toString()});
 `;
 
+const loadingBackgroundColor = [240, 240, 240];
 const LoadingScreen = styled.div`
   width: 50%;
   height: 50%;
@@ -80,10 +98,27 @@ const LoadingScreen = styled.div`
   border-radius: 10px;
   align-items: center;
   justify-content: center;
-  background-color: var(--main-bgc);
+  /* background-color: rgb(${loadingBackgroundColor.toString()}); */
 `;
+const textColor = [60, 60, 60];
 const LoadingText = styled.h1`
-  /* color: var(--bgc2); */
+  color: rgb(${textColor.toString()});
 `;
+
+const initializeAppState = (productId, dispatch) => {
+  return api.get
+    .allProductData(productId)
+    .then((response) => {
+      response.currentProduct = productId;
+      dispatch({
+        type: 'PROD_INIT',
+        payload: response,
+      });
+    })
+    .catch((err) => {
+      console.log('Data init fetch error: ', err);
+      dispatch({ type: '' }); //sets state so that the app rerenders and trys again.
+    });
+};
 
 export default App;

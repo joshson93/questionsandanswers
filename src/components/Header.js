@@ -8,10 +8,11 @@ const Header = (props) => {
   const [, dispatch] = useContext(DispatchContext)
 
 
-
-  const toggleTheme = () => {
+  const toggleModal = () => {
+    const next = state.modal === 'none' ? 'compare' : 'none'
     dispatch({
-      type: 'TOGGLE_THEME',
+      type: 'TOGGLE_MODAL',
+      payload: next
     })
   }
 
@@ -21,8 +22,8 @@ const Header = (props) => {
         <LogoText> Clothy </LogoText>
       </HeaderLogoContainer>
       <HeaderCartContainer >
-        <CartText onClick={toggleTheme} > Cart: {state.user.cart.length}  </CartText>
-        <CartText> Outfit: {state.user.outfit.length}  </CartText>
+        <CartText> Cart: {state.user.cart.length}  </CartText>
+        <CartText onClick={toggleModal} > Outfit: {state.user.outfit.length}  </CartText>
       </HeaderCartContainer>
     </HeaderContainer>
   )
@@ -30,12 +31,10 @@ const Header = (props) => {
 
 const HeaderContainer = styled.div`
   top: 0;
-  z-index: 1;
   width: 100%;
   height: 50px;
   position: sticky;
   background-Color: rgb(247, 193, 18);
-  z-index: 1;
 `
 
 const HeaderLogoContainer = styled.div`

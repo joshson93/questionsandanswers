@@ -33,15 +33,6 @@ function reducer(state, action) {
       }
       return newState;
 
-    case 'SET_UPVOTED':
-      newState = { ...state };
-      newState.user.upVoted = action.payload;
-      setUserLocalStore(newState.user);
-      if (toLog) {
-        console.log('\n\nDEV  STATE-REDUCER   SET_UPVOTED   new Upvote: ', newState.currentProduct);
-      }
-      return newState;
-
     case 'SET_OUTFIT':
       newState = { ...state };
       newState.user.outfit = action.payload;
@@ -53,9 +44,18 @@ function reducer(state, action) {
 
     case 'TOGGLE_MODAL':
       newState = { ...state };
-      newState.modal = action.payload && action.payload;
+      newState.modal = action.payload || 'none';
       if (toLog) {
         console.log('\n\nDEV  STATE-REDUCER   TOGGLE_MODAL    changed modal: ', action.payload);
+      }
+      return newState;
+
+    case 'SET_UPVOTED':
+      newState = { ...state };
+      newState.user.upVoted = action.payload;
+      setUserLocalStore(newState.user);
+      if (toLog) {
+        console.log('\n\nDEV  STATE-REDUCER   SET_UPVOTED   new Upvote: ', newState.currentProduct);
       }
       return newState;
 
@@ -67,15 +67,6 @@ function reducer(state, action) {
           '\n\nDEV  STATE-REDUCER   ADD_POSTED_QUESTION    added question: ',
           action.payload
         );
-      }
-      return newState;
-
-    case 'TOGGLE_THEME':
-      newState = { ...state };
-      newState.user.theme = newState.user.theme === 'light' ? 'dark' : 'light';
-      setUserLocalStore(newState.user);
-      if (toLog) {
-        console.log('\n\nDEV  STATE-REDUCER   SET_OUTFIT   new Outfit: ', newState.currentProduct);
       }
       return newState;
 

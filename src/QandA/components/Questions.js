@@ -50,19 +50,34 @@ export default function Questions(props) {
     setsubmitHelpfulQuestionOnce(false);
     if (submitHelpfulQuestionOnce) {
       setShowHelpfulModal(true);
-      api.upvote
-        .question({ typeId: id, productId: state.currentProduct })
-        .then(() => api.load.newProduct(state.currentProduct, dispatch))
-        .catch((err) => console.log('helpful question not sent!'));
+      api.post.question
+        .helpful(id, state.currentProduct)
+        .then(() => {
+          return api.get.allProductData(state.currentProduct);
+        })
+        .then((getRes) =>
+          dispatch({
+            type: 'PROD_INIT',
+            payload: getRes,
+          })
+        );
     } else {
       setShowErrorModal(true);
     }
   };
 
   const reportQuestionHandler = (id) => {
-    api.report
-      .question({ typeId: id, productId: state.currentProduct })
-      .then(() => api.load.newProduct(state.currentProduct, dispatch))
+    api.post.question
+      .report(id, state.currentProduct)
+      .then(() => {
+        return api.get.allProductData(state.currentProduct);
+      })
+      .then((getRes) =>
+        dispatch({
+          type: 'PROD_INIT',
+          payload: getRes,
+        })
+      )
       .catch((err) => console.log('report question not sent!'));
   };
 
@@ -98,11 +113,7 @@ export default function Questions(props) {
         </QuestionBodyWrapper>
         <HelpfulReportContainer>
           Helpful Question?{' '}
-          <HelpfulLink
-            helpful={!submitHelpfulQuestionOnce}
-            onClick={() => helpfulQuestionHandler(props.q.question_id)}>
-            Yes
-          </HelpfulLink>{' '}
+          <HelpfulLink onClick={() => helpfulQuestionHandler(props.q.question_id)}>Yes</HelpfulLink>{' '}
           ({props.q.question_helpfulness}) |{'  '}
           <ReportedLink onClick={() => reportQuestionHandler(props.q.question_id)}>
             Report
@@ -179,6 +190,7 @@ const QuestionsAuthor = styled.p`
 const QuestionBody = styled.h3`
   display: inline;
   font-size: var(--body-fs);
+  width: 70%;
 `;
 
 const HelpfulReportContainer = styled.div`

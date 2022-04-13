@@ -22,15 +22,21 @@ export default function AnswerForm(props) {
       email: email,
     };
     api.post
-      .answer({ typeId: props.id, post:newAnswer, productId: state.currentProduct })
+      .answer(props.id, newAnswer, state.currentProduct)
       .then((res) => console.log('post answer res', res))
       .then(() => {
         setUsername('');
         setEmail('');
         setBody('');
-        setPhotos(null);
-        api.load.newProduct(state.currentProduct, dispatch);
+        setPhotos([]);
+        return api.get.allProductData(state.currentProduct);
       })
+      .then((getRes) =>
+        dispatch({
+          type: 'PROD_INIT',
+          payload: getRes,
+        })
+      )
       .catch((err) => console.log('answer not sent!'));
   };
 
@@ -65,6 +71,7 @@ export default function AnswerForm(props) {
   const previewPhotos = photos.map((photo, i) => (
     <img
       key={i}
+      alt='preview photos'
       style={{ width: '90px', height: '90px', marginRight: '7px', marginTop: '10px' }}
       src={photo}
     />
@@ -194,8 +201,4 @@ const Modal = styled.div`
   width: 50%;
   z-index: 3;
   animation: ${fadeIn} ${time};
-`;
-
-const ImagesPreview = styled.p`
-  text-align: center;
 `;

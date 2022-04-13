@@ -144,52 +144,62 @@ export default function QAndA() {
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
   return (
-    <EntireQuestionsContainer data-testid='QandA'>
-      <EntireQuestionsWrapper>
-        <QAHeader>Questions & Answers:</QAHeader>
-        <SearchBar
-          type='search'
-          value={searchText}
-          onChange={searchTextHandler}
-          placeholder='Have a question? Search for answers...'
-        />
-        <EntireQAndAContainer>
-          {/* RENDERS WHEN USER STARTS SEARCHING */}
-          {searchTextThere && state.QA && renderWhenSearchInput()}
+    <>
+      <QAHeader>Questions & Answers:</QAHeader>
+      <EntireQuestionsContainer data-testid='QandA'>
+        <EntireQuestionsWrapper>
+          <SearchBar
+            type='search'
+            value={searchText}
+            onChange={searchTextHandler}
+            placeholder='Have a question? Search for answers...'
+          />
+          <EntireQAndAContainer>
+            {/* RENDERS WHEN USER STARTS SEARCHING */}
+            {searchTextThere && state.QA && renderWhenSearchInput()}
 
-          {/* IF NOT SEARCH VALUE RENDER BOTTOM */}
-          {!searchTextThere && state.QA && renderWhenNoSearchInput()}
-          {state.QA.results.length === 0 && (
-            <NoMatchMessage>There are no questions here. Add one!</NoMatchMessage>
-          )}
-        </EntireQAndAContainer>
+            {/* IF NOT SEARCH VALUE RENDER BOTTOM */}
+            {!searchTextThere && state.QA && renderWhenNoSearchInput()}
+            {state.QA.results.length === 0 && (
+              <NoMatchMessage>There are no questions here. Add one!</NoMatchMessage>
+            )}
+          </EntireQAndAContainer>
 
-        {!searchTextThere &&
-          state.QA &&
-          state.QA.results.length > 2 &&
-          addMoreQuestionsButtonWhenNoSearchInput()}
-        {searchTextThere && state.QA.results.length > 2 && addMoreQuestionsButtonWhenSearchInput()}
-        <AddQuestionButton onClick={createQuestionForm}>Add A Question</AddQuestionButton>
-      </EntireQuestionsWrapper>
+          {!searchTextThere &&
+            state.QA &&
+            state.QA.results.length > 2 &&
+            addMoreQuestionsButtonWhenNoSearchInput()}
+          {searchTextThere &&
+            state.QA.results.length > 2 &&
+            addMoreQuestionsButtonWhenSearchInput()}
+          <AddQuestionButton onClick={createQuestionForm}>Add A Question</AddQuestionButton>
+        </EntireQuestionsWrapper>
 
-      {createForm && (
-        <BackDrop onClick={backDropHandler}>
-          <QuestionForm success={success} showForm={setCreateForm} />
-        </BackDrop>
-      )}
+        {createForm && (
+          <BackDrop onClick={backDropHandler}>
+            <QuestionForm success={success} showForm={setCreateForm} />
+          </BackDrop>
+        )}
 
-      {showModal && (
-        <BackDrop onClick={backDropSuccessHandler}>
-          <SuccessModal />
-        </BackDrop>
-      )}
-    </EntireQuestionsContainer>
+        {showModal && (
+          <BackDrop onClick={backDropSuccessHandler}>
+            <SuccessModal />
+          </BackDrop>
+        )}
+      </EntireQuestionsContainer>
+    </>
   );
 }
 
+export const qAndAStateInit = (productId) => {
+  return ['/qa/questions/', { product_id: 37311, count: 500 }];
+};
+
 const QAHeader = styled.h1`
-  font-size: var(--fs3);
-  color: var(--header-fc);
+  margin-left: 5%;
+  margin-bottom: 10px;
+  font-size: 30px;
+  /* color: var(--header-fc); */
 `;
 
 const SearchBar = styled.input`
@@ -204,9 +214,7 @@ const SearchBar = styled.input`
 const EntireQuestionsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding-top: 2em;
   padding-bottom: 4em;
 `;
 

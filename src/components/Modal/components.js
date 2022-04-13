@@ -36,7 +36,6 @@ const ModalContainer = styled(Animatior)`
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 4;
   display: flex;
   position: fixed;
   align-Items: center;
