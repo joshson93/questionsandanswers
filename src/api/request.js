@@ -1,13 +1,9 @@
 import axios from 'axios';
 import format from './formaters';
 import QuickCache from './localCache';
-import GIT_TOKEN from '../config/example';
-require('dovenv').config();
 const CAMPUS_CODE = 'hr-rfe';
 const baseUrl = `https://app-hrsei-api.herokuapp.com/api/fec2/${CAMPUS_CODE}`;
-
 const cache = QuickCache();
-
 const checkCache = (options) => {
   if (options.method.toUpperCase() === 'GET') {
     return cache.check(options);
@@ -36,9 +32,8 @@ const startRequest = (options) => {
       console.log('input options', options);
     });
 };
-
 const headers = {
-  Authorization: process.env.GIT_TOKEN,
+  Authorization: process.env.REACT_APP_GITHUB_TOKEN,
 };
 
 const buildGetOptions = (endpoint, params = {}) => {
