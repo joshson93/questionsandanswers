@@ -1,7 +1,8 @@
 import axios from 'axios';
 import format from './formaters';
 import QuickCache from './localCache';
-import GIT_TOKEN from '../config/config.js';
+import GIT_TOKEN from '../config/example';
+require('dovenv').config();
 const CAMPUS_CODE = 'hr-rfe';
 const baseUrl = `https://app-hrsei-api.herokuapp.com/api/fec2/${CAMPUS_CODE}`;
 
@@ -37,7 +38,7 @@ const startRequest = (options) => {
 };
 
 const headers = {
-  Authorization: GIT_TOKEN,
+  Authorization: process.env.GIT_TOKEN,
 };
 
 const buildGetOptions = (endpoint, params = {}) => {
