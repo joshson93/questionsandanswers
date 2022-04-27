@@ -232,7 +232,6 @@ const EntireQuestionsWrapper = styled.div`
   display: inline;
   width: var(--module-width);
   padding: 1em;
-  background-color: var(--contain-bgc);
 `;
 
 const AddQuestionButton = styled.button`
