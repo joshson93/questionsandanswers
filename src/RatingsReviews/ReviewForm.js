@@ -1,41 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { StateContext, DispatchContext } from '../appState/index.js';
+import React from 'react';
 import styled from 'styled-components';
-import api from '../api/index';
 
 export default function QuestionForm(props) {
-  const [state] = useContext(StateContext);
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [body, setBody] = useState('');
-  const onSubmitHandler = (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-    var newQuestion = {
-      product_id: state.currentProduct,
-      body: body,
-      name: username,
-      email: email,
-    };
-    api.post
-      .question(newQuestion)
-      .then((res) => console.log('post question res', res))
-      .then(() => {
-        props.showForm(false);
-        setUsername('');
-        setEmail('');
-        setBody('');
-      })
-      .catch((err) => console.log('question not sent!'));
-  };
-  const onChangeSummary = (e) => {
-    setUsername(e.target.value);
-  };
-
-  const onChangeBody = (e) => {
-    setBody(e.target.value);
-  };
-
   const preventBubbling = (e) => {
     e.stopPropagation();
   };
@@ -43,19 +9,12 @@ export default function QuestionForm(props) {
   return (
     <Modal onClick={preventBubbling}>
       <ReviewFormContainer>
-        <form >
+        <form>
           <label>Review Summary </label>
-          <Input
-            type='text'
-            name='Summary'
-            onChange={onChangeSummary}
-            placeholder='Write your Review'
-            required
-          />
+          <Input type='text' name='Summary' placeholder='Write your Review' required />
           <TextArea
             type='text'
             name='body'
-            onChange={onChangeBody}
             placeholder='About the [PRODUCT NAME HERE]'
             required></TextArea>
           <CenterItemsWrapper>

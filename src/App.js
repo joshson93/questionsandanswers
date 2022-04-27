@@ -2,14 +2,12 @@ import './App.css';
 import api from './api/index.js';
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import Header from './components/Header.js';
-import Modal from './components/Modal/index';
 import CircularProgress from '@mui/material/CircularProgress';
 import { StateContext, DispatchContext } from './appState/index.js';
-import ProductDetails, { detailsStateInit } from './ProductDetails/index';
-import RatingsReviews, { reviewStateInit, reviewMetaStateInit } from './RatingsReviews/index';
+import { detailsStateInit } from './ProductDetails/index';
+import { reviewStateInit, reviewMetaStateInit } from './RatingsReviews/index';
 import QAndA, { qAndAStateInit } from './QandA/index';
-import RelatedProducts, { relatedStateInit } from './RelatedProducts/index';
+import { relatedStateInit } from './RelatedProducts/index';
 
 api.get.initProductDataFetch(
   detailsStateInit,
